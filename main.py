@@ -17,8 +17,11 @@ class Box:
         self.block = False
 
     def draw(self, screen, font):
+        BLACK = (0, 0, 0)
+        GREY = (150, 150, 150)
         if self.number is not None:
-            number_surface = font.render(f"{self.number}", False, (0, 0, 0))
+            color = BLACK if self.block else GREY
+            number_surface = font.render(f"{self.number}", False, color)
             x = self.xcord * self.WIDTH + 0.5 * self.WIDTH - 0.5 * number_surface.get_width()
             y = self.ycord * self.WIDTH + 0.5 * self.WIDTH - 0.5 * number_surface.get_height()
             screen.blit(number_surface, (int(x), int(y)))
@@ -31,6 +34,7 @@ class Box:
             if x in check_viable_numbers(self, board):
                 self.block = True
                 self.number = x
+
 
 SIZE = (9 * Box.WIDTH, 9 * Box.WIDTH)
 SCREEN = pygame.display.set_mode(SIZE)
@@ -103,9 +107,10 @@ def get_pressed_key(event):
     elif event.key == pygame.K_9:
         return 9
 
+
 def mainloop():
     run = True
-    solving = [False, False] # [solving, solved]
+    solving = [False, False]  # [solving, solved]
     selected_box = None
     solve_thread = None
     board = create_sudoku_board()
@@ -122,7 +127,7 @@ def mainloop():
                     selected_box.change_number(get_pressed_key(event), board)
                 elif event.key == pygame.K_SPACE and not solving[1]:
                     solving[0] = True
-                    solve_thread = threading.Thread(target=solve, args=(board,solving))
+                    solve_thread = threading.Thread(target=solve, args=(board, solving))
                     solve_thread.start()
                 elif event.key == pygame.K_r:
                     # RESET
