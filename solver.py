@@ -2,12 +2,14 @@ from viability_check import check_viable_numbers
 import time
 
 
+TIMEOUT = 0.01  # The shorter the timeout the faster the animation
+
 def solve(board, solving, rows=9):
     run = True
     x, y = determine_first(board, rows)
     while run:
         # check result
-        #time.sleep(0.01) # !!!!!!!!!!!!!!!!! Comment to skip animation
+        time.sleep(TIMEOUT)
         if y == -1:
             break
         elif y == rows:
